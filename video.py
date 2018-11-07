@@ -38,17 +38,17 @@ class Video(object):
     @property
     def length(self): 
         """Returns the video size"""
-        return self.cap.get(cv2.CAP_PROP_FRAME_COUNT)
+        return int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
     @property
     def width(self):
         """Returns the video width"""
-        return self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+        return int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 
     @property
     def height(self):
         """Returns the video height"""
-        return self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+        return int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
     @property
     def shape(self):
