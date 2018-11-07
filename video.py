@@ -26,7 +26,7 @@ class Video(object):
         """
         if not self.cap.isOpened():
             raise IOError('Video ' + self.path + ' is not open')
-        count = self.size()
+        count = self.length
         if index >= count:
             raise ValueError('index must be less than video total frames')
         self.cap.set(cv2.CAP_PROP_POS_FRAMES, index)
@@ -35,24 +35,28 @@ class Video(object):
             raise RuntimeError('frame not read')
         return data
 
-    def size(self):  # change to properties
+    @property
+    def length(self): 
         """Returns the video size"""
         return self.cap.get(cv2.CAP_PROP_FRAME_COUNT)
 
+    @property
     def width(self):
         """Returns the video width"""
         return self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)
 
+    @property
     def height(self):
         """Returns the video height"""
         return self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
 
+    @property
     def shape(self):
         """Returns the video shape as (nframes, height, width)
 
         Does not return the number of color channels.
         """
-        return self.size(), self.height(), self.width()
+        return self.length, self.height, self.width
 
     def next(self, cvtgray=False):
         """
@@ -144,7 +148,7 @@ class Video(object):
         cv2.destroyAllWindows()
 
     def astensor(self):
-        nframes, height, width = self.shape()
+        nframes, height, width = self.shape
         tensor = np.array((nframes, height, width, 3))
         for i, frame in enumerate(self.iterframes()):
             tensor[i] = frame
